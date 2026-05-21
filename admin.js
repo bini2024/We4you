@@ -11,12 +11,12 @@ import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, orderBy, 
 
 // ⚠️ REPLACE WITH YOUR FIREBASE CONFIG (same as app.js)
 const firebaseConfig = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
+  apiKey: "AIzaSyCw7dSkdHge57ERAbJRrp8ioFJOVBDbdXc",
+  authDomain: "we4you-transport.firebaseapp.com",
+  projectId: "we4you-transport",
+  storageBucket: "we4you-transport.firebasestorage.app",
+  messagingSenderId: "980715177871",
+  appId: "1:980715177871:web:72e23e75f177d455d06dfa"
 };
 
 const app  = initializeApp(firebaseConfig);
