@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – We4you Transport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- ===== LOGIN SCREEN ===== -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo">
+        <span class="logo-w4">W4Y</span>
+        <span class="logo-text">TRANSPORT</span>
+      </div>
+      <p class="login-subtitle">Admin Portal</p>
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="admin@we4youtransport.ca" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPass">Password</label>
+          <div class="pass-wrap">
+            <input type="password" id="loginPass" placeholder="••••••••" required />
+            <button type="button" class="pass-toggle" id="passToggle">👁</button>
+          </div>
+        </div>
+        <p class="login-error hidden" id="loginError"></p>
+        <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+          <span id="loginBtnText">Sign In</span>
+          <span id="loginBtnLoader" class="hidden">Signing in…</span>
+        </button>
+      </form>
+      <p class="login-hint">Access restricted to authorized personnel only.</p>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <div class="dashboard hidden" id="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-w4">W4Y</span>
+        <span class="logo-text">ADMIN</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-view="quotes">
+          <span class="nav-icon">📋</span> Quote Requests
+        </a>
+        <a href="#" class="nav-item" data-view="stats">
+          <span class="nav-icon">📊</span> Overview
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="admin-user" id="adminUser">
+          <span class="user-avatar" id="userAvatar">A</span>
+          <span class="user-email" id="userEmail">admin</span>
+        </div>
+        <button class="btn-logout" id="logoutBtn">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="topbar-title" id="topbarTitle">Quote Requests</div>
+        <div class="topbar-right">
+          <button class="btn-refresh" id="refreshBtn" title="Refresh">↻ Refresh</button>
+          <span class="last-updated" id="lastUpdated"></span>
+        </div>
+      </header>
+
+      <!-- ── QUOTES VIEW ── -->
+      <div class="view" id="view-quotes">
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <span class="stat-label">Total Quotes</span>
+            <span class="stat-val" id="statTotal">—</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">New</span>
+            <span class="stat-val orange" id="statNew">—</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">In Progress</span>
+            <span class="stat-val blue" id="statProgress">—</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Completed</span>
+            <span class="stat-val green" id="statDone">—</span>
+          </div>
+        </div>
+
+        <!-- Filters & Search -->
+        <div class="toolbar">
+          <input type="text" class="search-box" id="searchBox" placeholder="🔍  Search by name, email, route…" />
+          <div class="filter-group">
+            <select id="filterStatus">
+              <option value="">All Statuses</option>
+              <option value="new">New</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="declined">Declined</option>
+            </select>
+            <select id="filterFreight">
+              <option value="">All Freight</option>
+              <option value="Dry Van">Dry Van</option>
+              <option value="Flatbed">Flatbed</option>
+              <option value="Refrigerated">Refrigerated</option>
+              <option value="Oversized / Special">Oversized</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrap">
+          <div class="loading-state" id="tableLoading">
+            <div class="spinner"></div>
+            <p>Loading quotes…</p>
+          </div>
+          <div class="empty-state hidden" id="tableEmpty">
+            <p>📭 No quotes found.</p>
+            <small>Submitted quotes from the website will appear here.</small>
+          </div>
+          <table class="quotes-table hidden" id="quotesTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name / Company</th>
+                <th>Contact</th>
+                <th>Route</th>
+                <th>Freight</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="quotesBody"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+
+      <!-- ── STATS VIEW ── -->
+      <div class="view hidden" id="view-stats">
+        <div class="stats-grid" id="statsGrid">
+          <div class="stats-big-card">
+            <h3>Quotes by Status</h3>
+            <div class="bar-chart" id="statusChart"></div>
+          </div>
+          <div class="stats-big-card">
+            <h3>Quotes by Freight Type</h3>
+            <div class="bar-chart" id="freightChart"></div>
+          </div>
+          <div class="stats-big-card full">
+            <h3>Recent Activity (last 7 days)</h3>
+            <div class="bar-chart" id="activityChart"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== QUOTE DETAIL MODAL ===== -->
+  <div class="modal-overlay hidden" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Quote Details</h2>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <div class="status-update">
+          <label>Update Status:</label>
+          <select id="modalStatusSelect">
+            <option value="new">New</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="declined">Declined</option>
+          </select>
+          <button class="btn btn-primary" id="saveStatusBtn">Save</button>
+        </div>
+        <button class="btn btn-danger" id="deleteQuoteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DELETE CONFIRM ===== -->
+  <div class="modal-overlay hidden" id="confirmOverlay">
+    <div class="modal confirm-modal">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button class="modal-close" id="confirmClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to permanently delete this quote? This cannot be undone.</p>
+      </div>
+      <div class="modal-footer" style="justify-content:flex-end; gap:12px;">
+        <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
+        <button class="btn btn-danger" id="confirmDelete">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
