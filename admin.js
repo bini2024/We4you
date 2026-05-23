@@ -193,7 +193,8 @@ async function loadQuotes() {
       isDemoMode = true;
     }
   } catch (err) {
-    console.warn('Firebase read failed (not configured?) — loading demo data.', err.code);
+    // Change console.warn to console.error and log the full 'err' object
+    console.error('FIREBASE ERROR:', err); 
     allQuotes = DEMO_QUOTES;
     isDemoMode = true;
   }
