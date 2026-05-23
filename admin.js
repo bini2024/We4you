@@ -9,7 +9,6 @@ import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
 import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, orderBy, query }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ⚠️ REPLACE WITH YOUR FIREBASE CONFIG (same as app.js)
 const firebaseConfig = {
   apiKey: "AIzaSyCw7dSkdHge57ERAbJRrp8ioFJOVBDbdXc",
   authDomain: "we4you-transport.firebaseapp.com",
